@@ -166,10 +166,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
     }
     const filteredMessages = messages
       .filter((msg) => !'分享消息,图片,表情包,视频'.split(',').includes(msg.type))
-      .map((msg) => {
-        const { img, id, isSender, ...rest } = msg
-        return rest
-      })
+      .map(({ from, type, datetime, content, name }) => ({ from, type, datetime, content, name }))
     const recentMessages = filteredMessages
       .map((msg) => {
         return `${msg.datetime} ${msg.from}: ${msg.content}`

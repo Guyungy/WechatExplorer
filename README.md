@@ -34,10 +34,79 @@ MAC系统 获取微信聊天记录 AI一键生成群聊总结
 - 微信>=4.0 无法使用
 - 微信<=4.0 需要获取自己微信本地数据库的密码， 获取方式参考： [Mac 导出微信聊天记录](https://blog.vcvit.me/2024/08/02/mac-export-wechat-chat-records/)
 - 如果无法获取本地数据库密码 则无法使用当前项目
-- Node.js (推荐 v16+)
-- pnpm@7
+- Node.js（已验证 Node 24 可运行；推荐 v16+）
+- 包管理器：pnpm@7 或 npm（本仓库已验证 npm 可跑通）
 - 解密后的微信数据库文件 (`.db`) 和对应的密钥
 - [DeepSeek API Key](https://www.deepseek.com/) (用于 AI 总结功能)
+
+### 本地开发运行（已跑通）
+
+1. 安装依赖（首次会下载 Electron 并编译 SQLite 相关依赖）
+
+   ```bash
+   npm install
+   ```
+
+2. 启动开发模式（Electron + 渲染进程 dev server）
+
+   ```bash
+   npm run dev
+   ```
+
+3. 看到 Electron 窗口弹出即启动成功；渲染进程 dev server 默认在：
+
+   - http://localhost:5173/
+
+停止运行：在终端按 `Ctrl + C`。
+
+### 配置（可选）
+
+可在 UI 中填写，也可以通过 `.env` 配置。示例见 `.env.example`：
+
+```bash
+cp .env.example .env
+```
+
+常用字段：
+
+- `VITE_DB_KEY`：微信数据库密钥（可选）
+- `VITE_DEEPSEEK_API_KEY`：DeepSeek API Key（可选）
+- `VITE_FILTER_MSG_TYPES`：过滤消息类型（可选）
+
+### 常见安装问题
+
+- `npm install` 卡在下载 Electron / 报 `ETIMEDOUT`：
+  - 本仓库已在 `.npmrc` 增加 Electron 镜像配置（`electron_mirror` / `electron_builder_binaries_mirror`），直接重试 `npm install` 通常即可。
+  - 也可以切换 npm registry 后重试：
+
+    ```bash
+    npm config set registry https://registry.npmmirror.com
+    npm install
+    ```
+
+### 构建与打包
+
+```bash
+npm run build
+```
+
+- macOS 打包：
+
+  ```bash
+  npm run build:mac
+  ```
+
+- Windows 打包：
+
+  ```bash
+  npm run build:win
+  ```
+
+- Linux 打包：
+
+  ```bash
+  npm run build:linux
+  ```
 
 ## ⚠️ 免责声明
 
